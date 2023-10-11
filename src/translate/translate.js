@@ -153,7 +153,7 @@ export const customCypherField = ({
   return {
     initial: `${initial}${fieldName}: ${headListWrapperPrefix}${
       labelPredicate ? `[${nestedVariable} IN ` : ''
-    }[ ${nestedVariable} IN apoc.cypher.runFirstColumn("${customCypherStatement}", {${cypherDirectiveArgs(
+    }[ ${nestedVariable} IN apoc.cypher.runFirstColumnMany("${customCypherStatement}", {${cypherDirectiveArgs(
       variableName,
       headSelection,
       cypherParams,
@@ -162,7 +162,7 @@ export const customCypherField = ({
       cypherFieldParamsIndex,
       isFederatedOperation,
       context
-    )}}, true) ${labelPredicate}| ${
+    )}}) ${labelPredicate}| ${
       labelPredicate ? `${nestedVariable}] | ` : ''
     }${mapProjection}]${headListWrapperSuffix}${skipLimit} ${commaIfTail}`,
     ...tailParams
@@ -1148,10 +1148,10 @@ const customQuery = ({
     resolveInfo
   });
 
-  const query = `WITH apoc.cypher.runFirstColumn("${
+  const query = `WITH apoc.cypher.runFirstColumnMany("${
     cypherQueryArg.value.value
   }", ${argString ||
-    'null'}, True) AS x ${labelPredicate}UNWIND x AS ${safeVariableName} RETURN ${
+    'null'}) AS x ${labelPredicate}UNWIND x AS ${safeVariableName} RETURN ${
     isScalarPayload
       ? `${mapProjection} `
       : `${mapProjection} AS ${safeVariableName}${orderByClause}`
