@@ -1,6 +1,6 @@
 {
-  "name": "neo4j-graphql-js",
-  "version": "2.19.4",
+  "name": "neo4j-graphql-js-v5",
+  "version": "1.0.0",
   "description": "A GraphQL to Cypher query execution layer for Neo4j. ",
   "main": "./dist/index.js",
   "types": "./index.d.ts",
@@ -37,7 +37,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neo4j-graphql/neo4j-graphql-js"
+    "url": "git+https://github.com/jonomacx/neo4j-graphql-js-v5"
   },
   "devDependencies": {
     "@apollo/federation": "^0.20.7",
