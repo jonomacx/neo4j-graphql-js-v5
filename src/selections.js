@@ -540,7 +540,7 @@ const translateScalarTypeField = ({
         variableName = `${variableName}_relation`;
       }
       return {
-        initial: `${initial}${fieldName}: apoc.cypher.runFirstColumn("${customCypherStatement}", {${cypherDirectiveArgs(
+        initial: `${initial}${fieldName}: apoc.cypher.runFirstColumnSingle("${customCypherStatement}", {${cypherDirectiveArgs(
           variableName,
           headSelection,
           cypherParams,
@@ -549,7 +549,7 @@ const translateScalarTypeField = ({
           paramIndex,
           isFederatedOperation,
           context
-        )}}, false)${commaIfTail}`,
+        )}})${commaIfTail}`,
         ...tailParams
       };
     } else if (
