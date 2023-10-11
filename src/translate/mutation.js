@@ -413,7 +413,7 @@ const nodeCreate = ({
     });
   }
 
-  // use apoc.create.uuid() to set a default value for @id field,
+  // use randomUUID() to set a default value for @id field,
   // if no value for it is provided in dataParams
   const fieldMap = schemaType.getFields();
   const fields = Object.values(fieldMap).map(field => field.astNode);
