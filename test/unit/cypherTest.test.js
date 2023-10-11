@@ -6349,7 +6349,7 @@ test('UUID value generated if no id value provided', t => {
     }
   }`,
     expectedCypherQuery = `
-    CREATE (\`movie\`:\`Movie\`${ADDITIONAL_MOVIE_LABELS}:\`MovieSearch\` {movieId: apoc.create.uuid(),title:$params.title,released: datetime($params.released)})
+    CREATE (\`movie\`:\`Movie\`${ADDITIONAL_MOVIE_LABELS}:\`MovieSearch\` {movieId: randomUUID(),title:$params.title,released: datetime($params.released)})
     RETURN \`movie\` { .title } AS \`movie\`
   `,
     expectedParams = {
@@ -6446,7 +6446,7 @@ test('Create node with list arguments', t => {
     }
   }`,
     expectedCypherQuery = `
-    CREATE (\`movie\`:\`Movie\`${ADDITIONAL_MOVIE_LABELS}:\`MovieSearch\` {movieId: apoc.create.uuid(),title:$params.title,year:$params.year,released: datetime($params.released),locations: [value IN $params.locations | point(value)],years:$params.years,titles:$params.titles,imdbRatings:$params.imdbRatings,releases: [value IN $params.releases | datetime(value)],booleans:$params.booleans,enums:$params.enums})
+    CREATE (\`movie\`:\`Movie\`${ADDITIONAL_MOVIE_LABELS}:\`MovieSearch\` {movieId: randomUUID(),title:$params.title,year:$params.year,released: datetime($params.released),locations: [value IN $params.locations | point(value)],years:$params.years,titles:$params.titles,imdbRatings:$params.imdbRatings,releases: [value IN $params.releases | datetime(value)],booleans:$params.booleans,enums:$params.enums})
     RETURN \`movie\` { .movieId , .title , .titles , .imdbRatings , .years ,releases: reduce(a = [], INSTANCE IN movie.releases | a + { year: INSTANCE.year , month: INSTANCE.month , day: INSTANCE.day , hour: INSTANCE.hour , second: INSTANCE.second , formatted: toString(INSTANCE) }),locations: reduce(a = [], INSTANCE IN movie.locations | a + { x: INSTANCE.x , y: INSTANCE.y , z: INSTANCE.z })} AS \`movie\`
   `,
     expectedParams = {
@@ -10068,7 +10068,7 @@ test('query interface type payload of @cypher mutation field', t => {
       type
     }
   }`,
-    expectedCypherQuery = `CALL apoc.cypher.doIt("CREATE (newCamera:Camera:NewCamera {id: apoc.create.uuid(), type: 'macro'}) RETURN newCamera", {first:$\`first\`, offset:$\`offset\`, cypherParams: $cypherParams}) YIELD value
+    expectedCypherQuery = `CALL apoc.cypher.doIt("CREATE (newCamera:Camera:NewCamera {id: randomUUID(), type: 'macro'}) RETURN newCamera", {first:$\`first\`, offset:$\`offset\`, cypherParams: $cypherParams}) YIELD value
     WITH apoc.map.values(value, [keys(value)[0]])[0] AS \`camera\`
     RETURN \`camera\` {FRAGMENT_TYPE: head( [ label IN labels(\`camera\`) WHERE label IN $Camera_derivedTypes ] ), .id , .type } AS \`camera\``,
     expectedParams = {
@@ -10108,7 +10108,7 @@ test('query interface type list payload of @cypher mutation field using fragment
   fragment OldCameraFragment on OldCamera {
     smell
   }`,
-    expectedCypherQuery = `CALL apoc.cypher.doIt("CREATE (newCamera:Camera:NewCamera {id: apoc.create.uuid(), type: 'macro', features: ['selfie', 'zoom']}) CREATE (oldCamera:Camera:OldCamera {id: apoc.create.uuid(), type: 'floating', smell: 'rusty' }) RETURN [newCamera, oldCamera]", {first:$\`first\`, offset:$\`offset\`, cypherParams: $cypherParams}) YIELD value
+    expectedCypherQuery = `CALL apoc.cypher.doIt("CREATE (newCamera:Camera:NewCamera {id: randomUUID(), type: 'macro', features: ['selfie', 'zoom']}) CREATE (oldCamera:Camera:OldCamera {id: randomUUID(), type: 'floating', smell: 'rusty' }) RETURN [newCamera, oldCamera]", {first:$\`first\`, offset:$\`offset\`, cypherParams: $cypherParams}) YIELD value
     UNWIND [\`camera\` IN apoc.map.values(value, [keys(value)[0]])[0]  WHERE ("NewCamera" IN labels(\`camera\`) OR "OldCamera" IN labels(\`camera\`)) | \`camera\`] AS \`camera\`
     RETURN head([\`camera\` IN [\`camera\`] WHERE "NewCamera" IN labels(\`camera\`) | \`camera\` { FRAGMENT_TYPE: "NewCamera",  .features , .id , .type  }] + [\`camera\` IN [\`camera\`] WHERE "OldCamera" IN labels(\`camera\`) | \`camera\` { FRAGMENT_TYPE: "OldCamera",  .smell , .id , .type  }]) AS \`camera\``,
     expectedParams = {
@@ -10143,7 +10143,7 @@ test('query interface type list payload of @cypher mutation field using only fra
   fragment OldCameraFragment on OldCamera {
     smell
   }`,
-    expectedCypherQuery = `CALL apoc.cypher.doIt("CREATE (newCamera:Camera:NewCamera {id: apoc.create.uuid(), type: 'macro', features: ['selfie', 'zoom']}) CREATE (oldCamera:Camera:OldCamera {id: apoc.create.uuid(), type: 'floating', smell: 'rusty' }) RETURN [newCamera, oldCamera]", {first:$\`first\`, offset:$\`offset\`, cypherParams: $cypherParams}) YIELD value
+    expectedCypherQuery = `CALL apoc.cypher.doIt("CREATE (newCamera:Camera:NewCamera {id: randomUUID(), type: 'macro', features: ['selfie', 'zoom']}) CREATE (oldCamera:Camera:OldCamera {id: randomUUID(), type: 'floating', smell: 'rusty' }) RETURN [newCamera, oldCamera]", {first:$\`first\`, offset:$\`offset\`, cypherParams: $cypherParams}) YIELD value
     UNWIND [\`camera\` IN apoc.map.values(value, [keys(value)[0]])[0]  WHERE ("NewCamera" IN labels(\`camera\`) OR "OldCamera" IN labels(\`camera\`)) | \`camera\`] AS \`camera\`
     RETURN head([\`camera\` IN [\`camera\`] WHERE "NewCamera" IN labels(\`camera\`) | \`camera\` { FRAGMENT_TYPE: "NewCamera",  .features  }] + [\`camera\` IN [\`camera\`] WHERE "OldCamera" IN labels(\`camera\`) | \`camera\` { FRAGMENT_TYPE: "OldCamera",  .smell  }]) AS \`camera\``,
     expectedParams = {
@@ -10301,7 +10301,7 @@ test('Create object type node with additional union label', t => {
     }
   }`,
     expectedCypherQuery = `
-    CREATE (\`movie\`:\`Movie\`${ADDITIONAL_MOVIE_LABELS}:\`MovieSearch\` {movieId: apoc.create.uuid(),title:$params.title})
+    CREATE (\`movie\`:\`Movie\`${ADDITIONAL_MOVIE_LABELS}:\`MovieSearch\` {movieId: randomUUID(),title:$params.title})
     RETURN \`movie\` { .movieId , .title } AS \`movie\`
   `,
     expectedParams = {
@@ -10335,7 +10335,7 @@ test('Create interfaced object type node with additional union label', t => {
     }
   }`,
     expectedCypherQuery = `
-    CREATE (\`actor\`:\`Actor\`:\`Person\`:\`MovieSearch\` {userId: apoc.create.uuid(),name:$params.name})
+    CREATE (\`actor\`:\`Actor\`:\`Person\`:\`MovieSearch\` {userId: randomUUID(),name:$params.name})
     RETURN \`actor\` { .userId , .name } AS \`actor\`
   `,
     expectedParams = {
@@ -10377,7 +10377,7 @@ test('Create object type node with @id field', t => {
     }
   }`,
     expectedCypherQuery = `
-    CREATE (\`movie\`:\`Movie\`${ADDITIONAL_MOVIE_LABELS}:\`MovieSearch\` {movieId: apoc.create.uuid(),title:$params.title,year:$params.year,plot:$params.plot,poster:$params.poster,imdbRating:$params.imdbRating})
+    CREATE (\`movie\`:\`Movie\`${ADDITIONAL_MOVIE_LABELS}:\`MovieSearch\` {movieId: randomUUID(),title:$params.title,year:$params.year,plot:$params.plot,poster:$params.poster,imdbRating:$params.imdbRating})
     RETURN \`movie\` {_id: ID(\`movie\`), .movieId , .title ,genres: [(\`movie\`)-[:\`IN_GENRE\`]->(\`movie_genres\`:\`Genre\`) | \`movie_genres\` { .name }] } AS \`movie\`
   `,
     expectedParams = {
@@ -10421,7 +10421,7 @@ test('Create interfaced object type node with @unique field', t => {
   }
   `,
     expectedCypherQuery = `
-    CREATE (\`newCamera\`:\`NewCamera\`:\`Camera\` {id: apoc.create.uuid(),type:$params.type,features:$params.features})
+    CREATE (\`newCamera\`:\`NewCamera\`:\`Camera\` {id: randomUUID(),type:$params.type,features:$params.features})
     RETURN \`newCamera\` { .id , .type , .features } AS \`newCamera\`
   `,
     expectedParams = {
@@ -10488,7 +10488,7 @@ test('Create object type node with multiple @unique ID type fields', t => {
     }
   }`,
     expectedCypherQuery = `
-    CREATE (\`uniqueNode\`:\`UniqueNode\` {id: apoc.create.uuid(),string:$params.string,anotherId:$params.anotherId})
+    CREATE (\`uniqueNode\`:\`UniqueNode\` {id: randomUUID(),string:$params.string,anotherId:$params.anotherId})
     RETURN \`uniqueNode\` { .string , .id , .anotherId } AS \`uniqueNode\`
   `,
     expectedParams = {
