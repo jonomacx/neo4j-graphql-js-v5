@@ -1,3 +1,5 @@
+This fork has been updated for compatibility with Neo4j v5.
+
 > ⚠️ NOTE: This project is no longer actively maintained. Please consider using the [official Neo4j GraphQL Library.](https://neo4j.com/docs/graphql-manual/current/)
 
 [![CI status](https://circleci.com/gh/neo4j-graphql/neo4j-graphql-js.svg?style=shield&circle-token=d01ffa752fbeb43585631c78370f7dd40528fbd3)](https://circleci.com/gh/neo4j-graphql/neo4j-graphql-js) [![npm version](https://badge.fury.io/js/neo4j-graphql-js.svg)](https://badge.fury.io/js/neo4j-graphql-js) [![Docs link](https://img.shields.io/badge/Docs-GRANDstack.io-brightgreen.svg)](https://github.com/neo4j-graphql/neo4j-graphql-js/tree/master/docs)
