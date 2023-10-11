@@ -389,7 +389,7 @@ export const setPrimaryKeyValue = ({
       const unwrappedType = unwrapNamedType({ type });
       const isIDTypePrimaryKey = unwrappedType.name === 'ID';
       if (isIDTypePrimaryKey && params[fieldName] === undefined) {
-        statements.push(`${fieldName}: apoc.create.uuid()`);
+        statements.push(`${fieldName}: randomUUID()`);
       }
     }
   }
