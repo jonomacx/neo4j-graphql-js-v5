@@ -738,11 +738,11 @@ export const testSchema = `
   extend type Mutation {
     CustomCamera: Camera
       @cypher(
-        statement: "CREATE (newCamera:Camera:NewCamera {id: apoc.create.uuid(), type: 'macro'}) RETURN newCamera"
+        statement: "CREATE (newCamera:Camera:NewCamera {id: randomUUID(), type: 'macro'}) RETURN newCamera"
       )
     CustomCameras: [Camera]
       @cypher(
-        statement: "CREATE (newCamera:Camera:NewCamera {id: apoc.create.uuid(), type: 'macro', features: ['selfie', 'zoom']}) CREATE (oldCamera:Camera:OldCamera {id: apoc.create.uuid(), type: 'floating', smell: 'rusty' }) RETURN [newCamera, oldCamera]"
+        statement: "CREATE (newCamera:Camera:NewCamera {id: randomUUID(), type: 'macro', features: ['selfie', 'zoom']}) CREATE (oldCamera:Camera:OldCamera {id: randomUUID(), type: 'floating', smell: 'rusty' }) RETURN [newCamera, oldCamera]"
       )
   }
 
